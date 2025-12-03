@@ -1,0 +1,573 @@
+/* =========================================================
+   HEAD (Variables, Base, Fonts)
+   ========================================================= */
+:root {
+  --bg:            #E6E6E6;
+  --text:          #000000;
+  --muted:         #9adad8;
+  --neon:          #14B9B7;
+  --title:         #000000;
+  --base-variant:  #E6E6E6;
+  --primary-color: #060715;
+  --sep-thickness: 2px;
+  --sep-height: 36px;
+  --sep-offset: -3px;
+  
+
+
+
+}
+
+/* Base reset / defaults */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  text-align: center;
+}
+
+/* Text-Defaults */
+p { color: var(--text); font-size: 18px; }
+.muted { color: var(--muted); }
+
+/* Webfont: Big Noodle Titling */
+@font-face {
+  font-family: "BigNoodleTitling";
+  src: url("fonts/BigNoodleTitling.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =========================================================
+   HEADER (dünne Linie wie im Footer)
+   ========================================================= */
+header {
+  position: relative;          /* für ::after */
+  padding: 40px 0;
+  color: var(--text);
+  overflow: visible;           /* Glow sichtbar lassen */
+}
+
+/* Dünne, scharfe Linie UNTEN (2px – wie im Footer) */
+header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;                      /* exakt wie Footer */
+  background: var(--neon);
+  /* symmetrischer Glow */
+  box-shadow:
+    0 -14px 32px -12px var(--neon), /* nach oben */
+    0  14px 32px -12px var(--neon); /* nach unten */
+  z-index: 1;
+}
+
+/* optionaler weicher Bloom */
+header::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -18px;
+  height: 36px;
+  background: linear-gradient(
+    to bottom,
+    rgba(20,185,183,.50) 45%,
+    rgba(20,185,183,.50) 55%,
+    rgba(20,185,183,0)  100%
+  );
+  filter: blur(12px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.site-title {
+  font-family: "BigNoodleTitling", "Segoe UI", Arial, sans-serif;
+  font-size: 150px;
+  font-weight: normal;
+  color: var(--title);
+  letter-spacing: 0.5px;
+  text-transform: none;
+  margin: 0;
+  text-shadow:
+    0 0 12px var(--neon),
+    0 0 28px var(--neon),
+    0 0 48px var(--neon);
+}
+
+/* Header-Links wie Footer */
+header .header-item,
+header a.header-item,
+header a.header-item:link,
+header a.header-item:visited,
+header a.header-item:active,
+header a.header-item:focus {
+  color: inherit !important;
+  font-weight: 400;
+  text-decoration: none;
+  text-shadow: 0 0 12px var(--neon), 0 0 24px var(--neon);
+}
+
+header a.header-item:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 24px var(--neon), 0 0 48px var(--neon);
+}
+
+
+.sidebar nav {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 0px;
+}
+
+
+/* =========================================================
+   Hamburger Menu HEADER
+   ========================================================= */
+:root{
+  --bar-width: 50px;
+  --bar-height: 8px;
+  --hamburger-gap: 6px;
+  --hamburger-background: #060715;
+  --hamburger-margin: 8px;
+  --animation-timing: 200ms ease-in-out;
+  --hamburger-height: calc(var(--bar-height) * 3 + var(--hamburger-gap) * 2);
+  --hamburger-background: #060715;
+  --hamburger-text: #FFFFFF;
+  --hamburger-icon: #000000;
+  --hamburger-icon-checked: #FFFFFF;
+}
+
+.hamburger-menu {
+  --x-width: calc(var(--hamburger-height) * 1.41421356237);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--hamburger-gap);
+  width: max-content;
+  position: fixed;
+  top: var(--hamburger-margin);
+  left: var(--hamburger-margin);
+  z-index: 1001;
+  cursor: pointer;
+}
+
+.hamburger-menu:has(input:checked) {
+  --foreground: var(--hamburger-icon);
+  --background: var(--hamburger-icon-checked);
+}
+
+.hamburger-menu::before,
+.hamburger-menu::after,
+.hamburger-menu input {
+  content: "";
+  width: var(--bar-width);
+  height: var(--bar-height);
+  background-color: var(--hamburger-icon);
+  border-radius: 9999px;
+  transform-origin: left center;
+  transition: opacity var(--animation-timing), width var(--animation-timing), rotate var(--animation-timing), translate var(--animation-timing), background-color var(--animation-timing);
+}
+
+.hamburger-menu:has(input:checked)::before {
+  rotate: 45deg;
+  width: var(--x-width);
+  translate: 0 calc(var(--bar-height) / -2);
+  background-color: var(--hamburger-icon-checked);
+}
+
+.hamburger-menu:has(input:checked)::after {
+  rotate: -45deg;
+  width: var(--x-width);
+  translate: 0 calc(var(--bar-height) / 2);
+  background-color: var(--hamburger-icon-checked);
+}
+
+.hamburger-menu input {
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  pointer-events: none;
+}
+
+.hamburger-menu input:checked {
+  opacity: 0;
+  width: 0;
+}
+
+.sidebar {
+  position:fixed;
+  transition: translate var(--animation-timing);
+  translate: -100%;
+  padding: 0.5rem 1rem;
+  padding-top: calc(var(--hamburger-height) + var(--hamburger-margin) + 1rem);
+  background-color: var(--hamburger-background);
+  color: var(--hamburger-text);
+  max-width: 50rem;
+  min-height: 100vh;
+  z-index: 1000;
+}
+
+.hamburger-menu:has(input:checked) + .sidebar {
+  translate: 0;
+}
+
+/* Sidebar-Links: immer wie Sidebar-Text, ohne Unterstreichung */
+.sidebar a:any-link,
+.sidebar a:link,
+.sidebar a:visited,
+.sidebar a:hover,
+.sidebar a:active,
+.sidebar a:focus {
+  color: var(--hamburger-text) !important;
+  text-decoration: none !important;
+}
+
+
+.sidebar a:hover,
+.sidebar a:focus-visible {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+main { padding: 50px; }
+
+/* Neon-Button */
+button {
+  display: inline-block;
+  padding: 12px 25px;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--neon);
+  border: 2px solid var(--neon);
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon);
+  /* Glow nur oben & unten */
+  box-shadow:
+    0 -8px 20px -6px var(--neon),   /* oben */
+    0  8px 20px -6px var(--neon);   /* unten */
+}
+
+button:hover {
+  background-color: var(--neon);
+  color: var(--bg);
+  box-shadow:
+    0 -12px 30px -8px var(--neon),
+    0  12px 30px -8px var(--neon),
+    inset 0 0 40px var(--neon);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+/* Grundstil & Linie/Glow */
+.site-footer {
+  position: relative;
+  padding: 20px 16px 28px; /* unten extra Platz für Glow */
+  text-align: center;
+  color: var(--text);
+}
+
+/* Scharfe, horizontale Linie OBEN */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: var(--neon);
+}
+
+/* Symmetrischer Glow (oben & unten um die Linie) */
+.site-footer::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -14px;   /* zentriert die Glowfläche */
+  height: 28px;                    /* Reichweite des Glows */
+  background: linear-gradient(
+    to bottom,
+    rgba(20,185,183,0)    0%,
+    rgba(20,185,183,.55) 45%,
+    rgba(20,185,183,.55) 55%,
+    rgba(20,185,183,0)  100%
+  );
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+/* Footer-Items: Theme-Farbe + Neon-Glow */
+.site-footer .footer-item,
+.site-footer a.footer-item,
+.site-footer a.footer-item:link,
+.site-footer a.footer-item:visited,
+.site-footer a.footer-item:active,
+.site-footer a.footer-item:focus {
+  color: inherit !important;
+  font-weight: 400;
+  text-decoration: none;
+  text-shadow: 0 0 12px var(--neon), 0 0 24px var(--neon);
+}
+
+.site-footer a.footer-item:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 24px var(--neon), 0 0 48px var(--neon);
+}
+
+/* Trenner zwischen den Items */
+.site-footer .footer-sep {
+  margin: 0 8px;
+  color: inherit;
+  text-shadow: 0 0 12px var(--neon), 0 0 24px var(--neon);
+}
+
+/* =========================================================
+   DARKMODE
+   ========================================================= */
+.darkmode{
+  --bg:            #060715;
+  --text:          #ffffff;
+  --muted:         #9adad8;
+  --neon:          #14B9B7;
+  --title:         #FFFFFF;
+  --base-variant:  #060715;
+  --primary-color: #E6E6E6;
+  --hamburger-background: #E6E6E6;
+  --hamburger-text: #000000;
+  --hamburger-icon: #ffffff;
+  --hamburger-icon-checked: #000000;
+}
+
+/* Darkmode Switch (UI-Button) */
+#theme-switch{
+  height: 50px;
+  width: 50px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: var(--base-variant);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: var(--hamburger-margin);
+  right: var(--hamburger-margin);
+  z-index: 1001;
+}
+
+/* überschreibt inline fill im SVG */
+#theme-switch svg { fill: var(--primary-color) !important; }
+#theme-switch svg:last-child { display: none; }
+.darkmode #theme-switch svg:first-child { display: none; }
+.darkmode #theme-switch svg:last-child { display: block; }
+
+
+/* ===== SLIDESHOW ===== */
+.slideshow-container {
+  position: relative;
+  max-width: 900px;
+  margin: 40px auto;
+  border: 2px solid var(--neon);
+  border-radius: 12px;
+  box-shadow: 0 0 30px var(--neon);
+  overflow: hidden;
+}
+.video-frame { position: relative; width: 100%; padding-top: 56.25%; }
+.video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; }
+
+.slide { display: none; animation: fade 200ms ease-in-out; }
+.slide.active { display: block; }
+@keyframes fade { from {opacity: 0;} to {opacity: 1;} }
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px 14px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--neon);
+  background: rgba(6, 7, 21, 0.45);
+  border: 1px solid var(--neon);
+  border-radius: 12px;
+  user-select: none;
+  z-index: 10;
+  pointer-events: auto;
+  transition: transform .15s ease, color .2s ease, background .2s ease;
+}
+.prev { left: 10px; } .next { right: 10px; }
+.prev:hover, .next:hover { color: #fff; background: rgba(20,185,183,0.25); transform: translateY(-50%) scale(1.05); }
+
+/* -------------------------------
+   Mobile Optimierungen
+   ------------------------------- */
+
+* { -webkit-tap-highlight-color: transparent; }
+button, .prev, .next, a { touch-action: manipulation; }
+
+.site-title {
+  font-size: clamp(40px, 12vw, 150px);
+}
+
+.slideshow-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 20px auto;
+  border-radius: 12px;
+}
+
+.prev, .next {
+  font-size: 26px;
+  padding: 12px 16px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.sidebar {
+  width: 320px;           /* Default */
+  max-width: 90vw;        /* nie schmaler als 90% vom Bildschirm */
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.sidebar .menu {
+  gap: 18px;
+}
+.sidebar .menu a,
+.sidebar .menu a:link,
+.sidebar .menu a:visited,
+.sidebar .menu a:hover,
+.sidebar .menu a:active,
+.sidebar .menu a:focus {
+  color: var(--hamburger-text) !important;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.sidebar .menu a:hover,
+.sidebar .menu a:focus-visible {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 768px) {
+  header { padding: 28px 0; }
+
+  .site-title {
+    letter-spacing: 0.3px;
+  }
+
+  .slideshow-container {
+    margin: 16px auto;
+  }
+
+  .prev, .next {
+    font-size: 24px;
+    padding: 10px 14px;
+  }
+
+  .sidebar .menu a {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 480px) {
+  header { padding: 22px 0; }
+
+  .prev, .next {
+    font-size: 22px;
+    padding: 10px 12px;
+    border-radius: 10px;
+  }
+
+  .sidebar {
+    max-width: 92vw;
+  }
+
+  .sidebar .menu a {
+    font-size: 16px;
+  }
+}
+
+
+/* ===== Lightweight Consent UI ===== */
+.consent-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#0b0b0be6;color:#fff;padding:12px 16px;backdrop-filter:saturate(140%) blur(6px);}
+.consent-banner__inner{max-width:1100px;margin:0 auto;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.consent-banner__text{font-size:14px;line-height:1.5}
+.consent-inline-button{background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+.consent-banner__actions{display:flex;gap:8px}
+.consent-btn{border:1px solid #888;padding:8px 12px;border-radius:8px;cursor:pointer;font:inherit}
+.consent-btn--primary{background:#ffffff;color:#111;border-color:#fff;font-weight:600}
+.consent-btn--secondary{background:#1f1f1f;color:#fff;border-color:#444}
+.consent-btn--ghost{background:transparent;color:#fff;border-color:#777}
+.consent-footer-link{position:fixed;right:12px;bottom:12px;z-index:9998;font-size:13px;opacity:.8}
+/* Modal */
+.consent-modal{position:fixed;inset:0;background:#00000080;display:none;align-items:center;justify-content:center;z-index:10000}
+.consent-modal__dialog{background:#151515;color:#fff;border-radius:12px;max-width:640px;width:92vw;box-shadow:0 10px 30px #00000080}
+.consent-modal__header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #2a2a2a}
+.consent-modal__content{padding:16px 20px;display:grid;gap:16px}
+.consent-modal__footer{padding:16px 20px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid #2a2a2a}
+.consent-close{background:none;border:0;color:#ccc;font-size:24px;cursor:pointer}
+.consent-group{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#1b1b1b;border:1px solid #2a2a2a;border-radius:10px;padding:12px 14px}
+.consent-group__title{font-weight:600}
+.consent-group__desc{font-size:13px;color:#c9c9c9;max-width:70%}
+
+/* Toggle switch */
+.switch{position:relative;display:inline-block;width:46px;height:26px}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#555;transition:.2s;border-radius:20px}
+.slider:before{position:absolute;content:"";height:20px;width:20px;left:3px;bottom:3px;background:white;transition:.2s;border-radius:50%}
+input:checked + .slider{background:#65d46e}
+input:checked + .slider:before{transform:translateX(20px)}
+
+/* Placeholder */
+.media-placeholder{display:flex;align-items:center;justify-content:center;gap:12px;text-align:center;border:1px dashed #666;border-radius:12px;padding:16px;background:#101010;color:#ddd;width:100%;height:100%;min-height:160px;box-sizing:border-box}
+.media-placeholder__actions{display:flex;gap:8px;justify-content:center}
+iframe.consent-lazy{opacity:0;transition:opacity .3s ease}
+iframe.consent-mounted{opacity:1}
+@media (max-width:600px){.consent-banner__inner{flex-direction:column;align-items:flex-start}.consent-footer-link{right:auto;left:12px}}
+
+
+/* === Overrides (consent only): remove neon glow from specific buttons/links === */
+#consent-banner button,
+#consent-modal button,
+.media-placeholder button {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+#consent-banner .consent-inline-button,
+#consent-modal .consent-inline-button {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.media-placeholder__text{max-width:660px;line-height:1.5;text-shadow:none}
+
+#consent-banner .consent-btn:hover,#consent-modal .consent-btn:hover,.media-placeholder .consent-btn:hover{filter:none;box-shadow:none;background:#2a2a2a;transition:background .15s ease}
+/* Make consent placeholder fill video frame like iframe */
+.video-frame > .media-placeholder{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
