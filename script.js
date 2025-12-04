@@ -1,4 +1,26 @@
 /* =========================
+   YouTube API Utility
+   ========================= */
+
+/**
+ * Fetch data from YouTube API via server-side proxy
+ * @param {string} endpoint - YouTube API endpoint (videos, search, channels)
+ * @param {Object} params - Query parameters for the API
+ * @returns {Promise<Object>} - JSON response from YouTube API
+ */
+async function fetchYouTube(endpoint, params = {}) {
+  const searchParams = new URLSearchParams({ endpoint, ...params });
+  const response = await fetch(`/api/youtube?${searchParams.toString()}`);
+  
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Unknown error' }));
+    throw new Error(error.error || `HTTP ${response.status}`);
+  }
+  
+  return response.json();
+}
+
+/* =========================
    Slideshow + Player-Kontrolle
    ========================= */
 let slideIndex = 0;
