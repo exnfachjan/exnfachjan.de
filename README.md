@@ -103,11 +103,15 @@ Returns the raw YouTube API JSON response with CORS headers.
 
 ### `/api/youtube/long` - Latest Long Video
 
-Returns the most recent public video longer than 60 seconds.
+Returns the most recent public video longer than 60 seconds from the configured channel.
+
+**Note:** This endpoint requires `YT_CHANNEL_ID` to be set.
 
 ### `/api/youtube/short` - Latest Short
 
-Returns the most recent public video shorter than 60 seconds (YouTube Short).
+Returns the most recent public video shorter than 60 seconds (YouTube Short) from the configured channel.
+
+**Note:** This endpoint requires `YT_CHANNEL_ID` to be set.
 
 ## Frontend Usage
 
