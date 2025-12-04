@@ -1,0 +1,34 @@
+# Cloudflare Pages Configuration
+# ================================
+# This project uses Cloudflare Pages Functions for server-side API routes.
+
+name = "exnfachjan-de"
+compatibility_date = "2024-01-01"
+
+# ================================
+# SECRETS CONFIGURATION
+# ================================
+# 
+# The following secrets MUST be set via Cloudflare dashboard or wrangler CLI.
+# DO NOT commit API keys to this repository.
+#
+# Required secrets:
+#   - YOUTUBE_API_KEY: Your YouTube Data API v3 key
+#   - YT_CHANNEL_ID: Your YouTube channel ID (for video search)
+#
+# To set secrets using wrangler CLI:
+#   wrangler secret put YOUTUBE_API_KEY
+#   wrangler secret put YT_CHANNEL_ID
+#
+# Or set them in Cloudflare Dashboard:
+#   Pages > your-project > Settings > Environment variables
+#
+# The /api/youtube endpoint accepts either YOUTUBE_API_KEY or YT_API_KEY
+# for backwards compatibility.
+# ================================
+
+[env.production]
+# Production environment uses secrets set in Cloudflare Dashboard
+
+[env.preview]
+# Preview/staging environment uses secrets set in Cloudflare Dashboard
